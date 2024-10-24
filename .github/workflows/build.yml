@@ -18,7 +18,8 @@ jobs:
 
     - name: Run build in Docker container
       run: |
-        docker run --rm rt-plugins /bin/sh -c "
+        docker run --rm -v $PWD:/work rt-plugins /bin/sh -c "
+          cd work && \
           mkdir build && cd build && \
           cmake .. && \
           make && \
@@ -27,6 +28,6 @@ jobs:
 
     - name: Check build artifacts
       run: |
-        docker run --rm rt-plugins /bin/sh -c "
+        docker run --rm -v $PWD:/work rt-plugins /bin/sh -c "
           ls -l /usr/local/lib/ladspa
         "
