@@ -1,0 +1,27 @@
+name: Build RT-Plugins
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t rt-plugins .
+
+    - name: Run build in Docker container
+      run: |
+        docker run --rm -v $PWD:/work rt-plugins /bin/sh -c "
+          cd work && \
+          mkdir -p build && cd build && \
+          cmake .. && \
+          make && \
+          make install
+        "
