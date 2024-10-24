@@ -25,9 +25,3 @@ jobs:
           make && \
           make install
         "
-
-    - name: Check build artifacts
-      run: |
-        docker run --rm -v $PWD:/work rt-plugins /bin/sh -c "
-          ls -l /usr/local/lib/ladspa
-        "
