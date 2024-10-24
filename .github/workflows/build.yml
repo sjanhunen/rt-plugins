@@ -20,7 +20,7 @@ jobs:
       run: |
         docker run --rm -v $PWD:/work rt-plugins /bin/sh -c "
           cd work && \
-          mkdir build && cd build && \
+          mkdir -p build && cd build && \
           cmake .. && \
           make && \
           make install
