@@ -1,5 +1,12 @@
-# rt-plugins
-rt-plugins: LADSPA plugins for Active Loudspeakers
+# rt-plugins: LADSPA plugins for Active Loudspeakers
+
+This is a fork of the [original rt-plugins code](https://faculty.tru.ca/rtaylor/rt-plugins/index.html) developed by Richard Taylor.
+
+Development Goals:
+- Add support for container-based development and GitHub Actions
+- Add support for additional useful plugins for active loudspeakers (e.g. Linkwitz Transform)
+- Continue to make code and test quality improvements
+- Improve documentation and examples
 
 # Compiling
 
@@ -32,11 +39,3 @@ processors.  Compiling for other architectures will probably require some
 changes to the source code.
 
 You can set `USE_SSE2` to `off` using `ccmake` if you do not want to use SSE2.
-
-
-# Bug reports
-
-Please send bug reports or comments to rtaylor@tru.ca.
-
-Enjoy,
-   Richard
