@@ -28,8 +28,8 @@ linkwitz_transform_biquad <- function(f0, q0, fp, qp, fs) {
 
   # Digital domain coefficients
   a0 = 1
-  a1 = -(2*(c0i-(gn^2)*c2i)/cci)
-  a2 = -((c0i-gn*c1i+(gn^2)*c2i)/cci)
+  a1 = (2*(c0i-(gn^2)*c2i)/cci)
+  a2 = ((c0i-gn*c1i+(gn^2)*c2i)/cci)
 
   b0 = (d0i+gn*d1i+(gn^2)*d2i)/cci
   b1 = 2*(d0i-(gn^2)*d2i)/cci
@@ -46,8 +46,7 @@ calculate_frequency_response <- function(b0, b1, b2, a0, a1, a2, fs, num_points 
   z <- exp(1i * w)
   z_inv <- 1/z
 
-  # TODO: need to decide how to best represent coefficients
-  H <- (b0 + b1 * z_inv + b2 * z_inv^2) / (a0 - a1 * z_inv - a2 * z_inv^2)
+  H <- (b0 + b1 * z_inv + b2 * z_inv^2) / (a0 + a1 * z_inv + a2 * z_inv^2)
   magnitude_db <- 20 * log10(abs(H))
   phase <- atan2(Im(H), Re(H))
   
