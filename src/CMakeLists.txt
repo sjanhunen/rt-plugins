@@ -21,12 +21,14 @@ add_library(RThighpass1 MODULE RThighpass1.c)
 
 add_library(RTdecorrmls MODULE RTdecorrmls.c)
 
-set_target_properties(RTallpass1 RTallpass2 RTlowpass RThighpass RTlowshelf RThighshelf RTlr4hipass RTlr4lowpass RTparaeq RTlowpass1 RThighpass1 RTdecorrmls
+add_library(RTlinkwitzeq MODULE RTlinkwitzeq.c)
+
+set_target_properties(RTallpass1 RTallpass2 RTlowpass RThighpass RTlowshelf RThighshelf RTlr4hipass RTlr4lowpass RTparaeq RTlowpass1 RThighpass1 RTdecorrmls RTlinkwitzeq
                       PROPERTIES LINK_FLAGS "-nostartfiles")
 if(USE_SSE2)
-  set_target_properties(RTallpass1 RTallpass2 RTlowpass RThighpass RTlowshelf RThighshelf RTlr4hipass RTlr4lowpass RTparaeq RTlowpass1 RThighpass1 RTdecorrmls
+  set_target_properties(RTallpass1 RTallpass2 RTlowpass RThighpass RTlowshelf RThighshelf RTlr4hipass RTlr4lowpass RTparaeq RTlowpass1 RThighpass1 RTdecorrmls RTlinkwitzeq
                         PROPERTIES COMPILE_FLAGS "-msse2 -mfpmath=sse")
 endif()
-install(TARGETS RTallpass1 RTallpass2 RTlowpass RThighpass RTlowshelf RThighshelf RTlr4hipass RTlr4lowpass RTparaeq RTlowpass1 RThighpass1 RTdecorrmls
+install(TARGETS RTallpass1 RTallpass2 RTlowpass RThighpass RTlowshelf RThighshelf RTlr4hipass RTlr4lowpass RTparaeq RTlowpass1 RThighpass1 RTdecorrmls RTlinkwitzeq
         LIBRARY DESTINATION lib/ladspa)
 
