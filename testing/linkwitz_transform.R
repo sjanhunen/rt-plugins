@@ -1,3 +1,5 @@
+dyn.load("./linkwitz.so");
+
 # Calculate Linkwitz Transform Biquad Coefficients
 #'
 #' This function calculates the biquad filter coefficients for a Linkwitz transform.
@@ -39,6 +41,26 @@ linkwitz_transform_biquad <- function(f0, q0, fp, qp, fs) {
   return(list(b0 = b0, b1 = b1, b2 = b2, a0 = 1, a1 = a1, a2 = a2))
 }
 
+calculate_linkwitz_biquad <- function(f0, q0, fp, qp, fs) {
+    res = .C( "calculate_linkwitz_biquad_wrapper",
+            a=double(3),
+            b=double(3),
+            as.double(f0),
+            as.double(q0),
+            as.double(fp),
+            as.double(qp),
+            as.double(fs)
+    )
+
+    return(list(
+                b0=res$b[[1]],
+                b1=res$b[[2]],
+                b2=res$b[[3]],
+                a0=res$a[[1]],
+                a1=res$a[[2]],
+                a2=res$a[[3]]))
+}
+
 # Calculate frequency response of biquad filter
 calculate_frequency_response <- function(b0, b1, b2, a0, a1, a2, fs, num_points = 1000) {
   f <- seq(10, 1000, length.out = num_points)
@@ -73,6 +95,10 @@ plot_frequency_response <- function(coeffs, fs, title = "Biquad Filter Frequency
   grid()
 }
 
-coeffs <- linkwitz_transform_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 48000)
-plot_frequency_response(coeffs, fs = 48000, title = "Linkwitz Transform Frequency Response")
-print(coeffs)
+coeffs1 <- linkwitz_transform_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 48000)
+print(coeffs1)
+
+coeffs2 <- calculate_linkwitz_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 48000)
+print(coeffs2)
+
+plot_frequency_response(coeffs2, fs = 48000, title = "Linkwitz Transform Frequency Response")
