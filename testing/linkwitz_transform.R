@@ -96,9 +96,21 @@ plot_frequency_response <- function(coeffs, fs, title = "Biquad Filter Frequency
 }
 
 coeffs1 <- linkwitz_transform_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 48000)
-print(coeffs1)
-
 coeffs2 <- calculate_linkwitz_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 48000)
-print(coeffs2)
+
+# Check if coefficients match within tolerance
+tolerance <- 1e-10
+coeff_diffs <- mapply('-', coeffs1, coeffs2)
+coeff_diffs_abs <- abs(coeff_diffs)
+
+print("Comparing coefficients between implementations:")
+if(any(coeff_diffs_abs > tolerance)) {
+  print("WARNING: Implementations differ beyond tolerance!")
+  # Print which coefficients exceeded tolerance
+  failing_coeffs <- names(coeff_diffs)[coeff_diffs_abs > tolerance]
+  print(paste("Coefficients exceeding tolerance:", paste(failing_coeffs, collapse=", ")))
+} else {
+  print("SUCCESS: Implementations match within tolerance")
+}
 
 plot_frequency_response(coeffs2, fs = 48000, title = "Linkwitz Transform Frequency Response")
