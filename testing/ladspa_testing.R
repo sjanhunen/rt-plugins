@@ -110,5 +110,4 @@ makegraph( "RTlr4lowpass,500", 500, -6, xlim=c(20,3000) );
 makegraph( "RTlr4hipass,500", 500, -6, xlim=c(100,20000) );
 makegraph( "RTallpass1,500", 500, 0, ylim=c(-3,3) );
 makegraph( "RTallpass2,500,0.7", 500, 0, ylim=c(-3,3) );
-makegraph( "RTlinkwitzeq,100,1,50,0.5", 500, 0, ylim=c(-3,3) );
-
+makegraph( "RTlinkwitzeq,119,1.23,60,0.7", 500, 0, ylim=c(-6,20) );

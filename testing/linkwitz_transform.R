@@ -95,8 +95,8 @@ plot_frequency_response <- function(coeffs, fs, title = "Biquad Filter Frequency
   grid()
 }
 
-coeffs1 <- linkwitz_transform_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 48000)
-coeffs2 <- calculate_linkwitz_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 48000)
+coeffs1 <- linkwitz_transform_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 44100)
+coeffs2 <- calculate_linkwitz_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 44100)
 
 # Check if coefficients match within tolerance
 tolerance <- 1e-10
