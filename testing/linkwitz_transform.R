@@ -14,7 +14,7 @@ dyn.load("./linkwitz.so");
 #'
 #' @return A list containing the biquad filter coefficients (b0, b1, b2, a0, a1, a2)
 #'
-linkwitz_transform_biquad <- function(f0, q0, fp, qp, fs) {
+calc_ref_linkwitz_coeffs <- function(f0, q0, fp, qp, fs) {
   # Analog domain coefficients
   d0i = (2*pi*f0)^2
   d1i = (2*pi*f0)/q0 
@@ -41,7 +41,7 @@ linkwitz_transform_biquad <- function(f0, q0, fp, qp, fs) {
   return(list(b0 = b0, b1 = b1, b2 = b2, a0 = 1, a1 = a1, a2 = a2))
 }
 
-calculate_linkwitz_biquad <- function(f0, q0, fp, qp, fs) {
+calc_rt_linkwitz_coeffs <- function(f0, q0, fp, qp, fs) {
     res = .C( "calculate_linkwitz_biquad_wrapper",
             a=double(3),
             b=double(3),
@@ -95,22 +95,19 @@ plot_frequency_response <- function(coeffs, fs, title = "Biquad Filter Frequency
   grid()
 }
 
-coeffs1 <- linkwitz_transform_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 44100)
-coeffs2 <- calculate_linkwitz_biquad(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 44100)
+coeffs1 <- calc_ref_linkwitz_coeffs(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 44100)
+coeffs2 <- calc_rt_linkwitz_coeffs(f0 = 119, q0 = 1.23, fp = 60, qp = 0.7, fs = 44100)
 
 # Check if coefficients match within tolerance
 tolerance <- 1e-10
 coeff_diffs <- mapply('-', coeffs1, coeffs2)
 coeff_diffs_abs <- abs(coeff_diffs)
 
-print("Comparing coefficients between implementations:")
 if(any(coeff_diffs_abs > tolerance)) {
   print("WARNING: Implementations differ beyond tolerance!")
   # Print which coefficients exceeded tolerance
   failing_coeffs <- names(coeff_diffs)[coeff_diffs_abs > tolerance]
   print(paste("Coefficients exceeding tolerance:", paste(failing_coeffs, collapse=", ")))
-} else {
-  print("SUCCESS: Implementations match within tolerance")
 }
 
 plot_frequency_response(coeffs2, fs = 48000, title = "Linkwitz Transform Frequency Response")
