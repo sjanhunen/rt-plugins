@@ -77,10 +77,8 @@ makegraph <- function(filter,reffreq,reflevel,xlim=c(20,20000),ylim=c(-20,5)) {
 
   # plot magnitude response ========================================================
 	x11(width=6,height=4);
-	plot( f, 20*log10(Y1), type="l", log="x", col="blue", lwd=2, xlim=xlim, ylim=ylim, yaxt="n",
+	plot( f, 20*log10(Y1), type="l", log="x", col="blue", lwd=2, xlim=xlim, ylim=ylim,
 		    xlab="frequency [Hz]", ylab="level [dB]", main=sprintf("Magnitude Response\n %s",filter) );
-  axis(2, at=3*(-6:1));
-  axis(4, at=3*(-6:1));
 
 	abline( v=reffreq, col="grey" );
 	abline( h=c(0,reflevel), col="grey" );
